@@ -16,6 +16,8 @@ services:
     command: /bin/bash  # 預設進入 bash，根據需求可以更改
     extra_hosts:
       - "host.docker.internal:host-gateway"  # 讓容器能解析宿主機的 localhost
+    restart:
+      unless-stopped
 
   postgres-dev:
     image: postgres:latest
@@ -30,6 +32,8 @@ services:
       - "3332:5432"                     # 暴露本地端5432埠
     networks:
       - dev-network  # 與 dev-container 共享同一網路
+    restart:
+      unless-stopped
 
   adminer-dev:
     image: adminer:latest
@@ -42,6 +46,8 @@ services:
       - postgres-dev
     networks:
       - dev-network  # 與 dev-container 和 postgres-dev 共享同一網路
+    restart:
+      unless-stopped
 
 volumes:
   workspace:  # 為 dev-container 定義的資料卷
