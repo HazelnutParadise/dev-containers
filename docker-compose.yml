@@ -10,8 +10,8 @@ services:
       - "3331:3331"  # 映射宿主機的 3331 到容器的 3331
       - "3322:22"    # 暴露容器內 SSH 的 22 埠到宿主機的 3322
     volumes:
-      - workspace:/workspace  # 使用資料卷來保存數據
-    working_dir: /workspace  # 設定工作目錄
+      - workspace:/root/workspace  # 使用資料卷來保存數據
+    working_dir: /root/workspace  # 設定工作目錄
     tty: true  # 啟用互動模式
     stdin_open: true
     command: >
@@ -30,11 +30,11 @@ services:
       apt-get install -y nodejs &&
       apt-get install -y python3 python3-pip &&
       wget https://go.dev/dl/go1.23.3.linux-amd64.tar.gz &&
-      tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz &&
+      tar -C /root -xzf go1.23.3.linux-amd64.tar.gz &&
       rm go1.23.3.linux-amd64.tar.gz &&
       echo 'export PATH=$PATH:/root/go/bin' >> /etc/profile &&
       echo 'export PATH=$PATH:/root/go/bin' >> /root/.bashrc &&
-      echo 'cd /workspace' >> /root/.bashrc &&
+      echo 'cd /root/workspace' >> /root/.bashrc &&
       /usr/sbin/sshd -D"
     extra_hosts:
       - "host.docker.internal:host-gateway"  # 讓容器能解析宿主機的 localhost
