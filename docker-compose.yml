@@ -32,8 +32,8 @@ services:
       wget https://go.dev/dl/go1.23.3.linux-amd64.tar.gz &&
       tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz &&
       rm go1.23.3.linux-amd64.tar.gz &&
-      echo 'export PATH=\$PATH:/usr/local/go/bin' >> /etc/profile &&
-      echo 'export PATH=\$PATH:/usr/local/go/bin' >> /root/.bashrc &&
+      echo 'export PATH=$PATH:/root/go/bin' >> /etc/profile &&
+      echo 'export PATH=$PATH:/root/go/bin' >> /root/.bashrc &&
       echo 'cd /workspace' >> /root/.bashrc &&
       /usr/sbin/sshd -D"
     extra_hosts:
@@ -60,8 +60,6 @@ services:
   adminer-dev:
     image: adminer:latest
     container_name: adminer_dev
-    environment:
-      ADMINER_DEFAULT_SERVER: postgres-dev  # 連接 PostgreSQL
     ports:
       - "3333:8080"                     # 暴露本地端8080埠
     depends_on:
