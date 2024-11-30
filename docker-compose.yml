@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   dev-container:
-    image: ubuntu:latest  # 替換為你的開發環境基底映像，例如 node:16、python:3 等
+    image: ubuntu:latest  # 替換為你的開發環境基底映像
     container_name: dev-container
     networks:
       - dev-network  # 使用自定義的 Docker 網路
@@ -18,7 +18,7 @@ services:
       bash -c "
       export DEBIAN_FRONTEND=noninteractive &&
       apt-get update &&
-      apt-get install -y openssh-server tzdata &&
+      apt-get install -y openssh-server tzdata git curl wget build-essential &&
       ln -fs /usr/share/zoneinfo/Asia/Taipei /etc/localtime &&
       echo 'Asia/Taipei' > /etc/timezone &&
       dpkg-reconfigure -f noninteractive tzdata &&
@@ -26,6 +26,13 @@ services:
       echo 'root:password' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
       sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config &&
+      curl -fsSL https://deb.nodesource.com/setup_22.x | bash - &&
+      apt-get install -y nodejs &&
+      apt-get install -y python3 python3-pip &&
+      wget https://go.dev/dl/go1.23.3.linux-amd64.tar.gz &&
+      tar -C /usr/local -xzf go1.23.3.linux-amd64.tar.gz &&
+      rm go1.23.3.linux-amd64.tar.gz &&
+      echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile &&
       echo 'cd /workspace' >> /root/.bashrc &&
       /usr/sbin/sshd -D"
     extra_hosts:
