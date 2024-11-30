@@ -16,8 +16,12 @@ services:
     stdin_open: true
     command: >
       bash -c "
+      export DEBIAN_FRONTEND=noninteractive &&
       apt-get update &&
-      apt-get install -y openssh-server &&
+      apt-get install -y openssh-server tzdata &&
+      ln -fs /usr/share/zoneinfo/Asia/Taipei /etc/localtime &&
+      echo 'Asia/Taipei' > /etc/timezone &&
+      dpkg-reconfigure -f noninteractive tzdata &&
       mkdir -p /var/run/sshd &&
       echo 'root:password' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
