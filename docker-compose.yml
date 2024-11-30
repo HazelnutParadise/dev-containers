@@ -26,6 +26,7 @@ services:
       echo 'root:password' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
       sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config &&
+      echo 'cd /workspace' >> /root/.bashrc &&
       /usr/sbin/sshd -D"
     extra_hosts:
       - "host.docker.internal:host-gateway"  # 讓容器能解析宿主機的 localhost
