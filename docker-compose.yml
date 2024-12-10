@@ -9,8 +9,6 @@ services:
     ports:
       - "3331:3331"  # 映射宿主機的 3331 到容器的 3331
       - "3322:22"    # 暴露容器內 SSH 的 22 埠到宿主機的 3322
-    extra_hosts:
-      - "host.dev:192.168.1.101"
     volumes:
       - workspace:/root/workspace  # 使用資料卷來保存數據
     working_dir: /root/workspace  # 設定工作目錄
@@ -40,6 +38,7 @@ services:
       /usr/sbin/sshd -D"
     extra_hosts:
       - "host.docker.internal:host-gateway"  # 讓容器能解析宿主機的 localhost
+      - "host.dev:192.168.1.101"
     restart:
       unless-stopped
 
