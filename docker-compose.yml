@@ -76,3 +76,6 @@ volumes:
 networks:
   dev-network:
     driver: bridge  # 使用橋接網路模式（預設）
+  extra_hosts:
+    - "host.dev:192.168.1.101"
+
